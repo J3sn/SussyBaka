@@ -17,7 +17,7 @@
       color: #fff;
       text-align: center;
       opacity: 0;
-      transition: opacity 1.5s ease; /* Page fade-in */
+      transition: opacity 1.5s ease; 
       position: relative;
       overflow: hidden;
     }
@@ -26,7 +26,7 @@
       opacity: 1;
     }
 
-    /* Overlay for background image */
+    
     body::before {
       content: "";
       position: absolute;
@@ -34,11 +34,11 @@
       background: url("among us.jpg") center/cover no-repeat;
       opacity: 0;
       transition: opacity 1.5s ease;
-      z-index: -1; /* keep behind text */
+      z-index: -1; 
     }
 
     body.bg-image::before {
-      opacity: 1; /* Fade in */
+      opacity: 1;
     }
 
     h1, p, button {
@@ -90,7 +90,7 @@
     const title = document.getElementById("title");
     const desc = document.getElementById("desc");
 
-    // Fade in page and elements
+
     window.addEventListener("load", () => {
       document.body.classList.add("loaded");
 
@@ -100,26 +100,26 @@
     });
 
     function startEffects() {
-      // Fade out button
+
       playButton.classList.add("fade-out");
 
-      // Fade in background image
+ 
       document.body.classList.add("bg-image");
 
-      // Fade it back out after 3s
+   
       setTimeout(() => {
         document.body.classList.remove("bg-image");
       }, 3000);
     }
 
-    // Try autoplay
+    
     audio.play().then(() => {
       startEffects();
     }).catch(() => {
       console.log("Autoplay blocked, waiting for user interaction.");
     });
 
-    // If user clicks button
+    
     playButton.addEventListener("click", () => {
       audio.play();
       startEffects();
@@ -127,3 +127,4 @@
   </script>
 </body>
 </html>
+
