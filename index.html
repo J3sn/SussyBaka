@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autoplay Audio</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      font-family: Arial, sans-serif;
+      color: #fff;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 1.5s ease; /* Page fade-in */
+      position: relative;
+      overflow: hidden;
+    }
+
+    body.loaded {
+      opacity: 1;
+    }
+
+    /* Overlay for background image */
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: url("among us.jpg") center/cover no-repeat;
+      opacity: 0;
+      transition: opacity 1.5s ease;
+      z-index: -1; /* keep behind text */
+    }
+
+    body.bg-image::before {
+      opacity: 1; /* Fade in */
+    }
+
+    h1, p, button {
+      opacity: 0;
+      transition: opacity 1.5s ease;
+      z-index: 1;
+    }
+
+    h1.show, p.show, button.show {
+      opacity: 1;
+    }
+
+    button {
+      padding: 12px 25px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #1e3c72;
+      background: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease, opacity 1s ease;
+    }
+
+    button:hover {
+      background: #f1f1f1;
+      transform: scale(1.05);
+    }
+
+    button.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="title">Welcome!</h1>
+  <p id="desc">Your audio should start playing automatically. If not, click below:</p>
+  <button id="playButton">Play Audio</button>
+
+  <audio id="myAudio" autoplay>
+    <source src="among-us-role-reveal-sound.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    const audio = document.getElementById("myAudio");
+    const playButton = document.getElementById("playButton");
+    const title = document.getElementById("title");
+    const desc = document.getElementById("desc");
+
+    // Fade in page and elements
+    window.addEventListener("load", () => {
+      document.body.classList.add("loaded");
+
+      setTimeout(() => title.classList.add("show"), 500);
+      setTimeout(() => desc.classList.add("show"), 1000);
+      setTimeout(() => playButton.classList.add("show"), 1500);
+    });
+
+    function startEffects() {
+      // Fade out button
+      playButton.classList.add("fade-out");
+
+      // Fade in background image
+      document.body.classList.add("bg-image");
+
+      // Fade it back out after 3s
+      setTimeout(() => {
+        document.body.classList.remove("bg-image");
+      }, 3000);
+    }
+
+    // Try autoplay
+    audio.play().then(() => {
+      startEffects();
+    }).catch(() => {
+      console.log("Autoplay blocked, waiting for user interaction.");
+    });
+
+    // If user clicks button
+    playButton.addEventListener("click", () => {
+      audio.play();
+      startEffects();
+    });
+  </script>
+</body>
+</html>
